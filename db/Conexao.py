@@ -47,34 +47,36 @@ class Conexao():
             confirm = confirm.fetchone()
             senha = (bytes(senha, encoding='utf8'))
             if bcrypt.checkpw(senha, confirm[0]):
-                print("Login feito com sucesso.")
+                return True
             else:
-                print("não ok")
+                return False
         
     def inserir(self, valores:list):        
         try:
-            self.cursor.execute("""CREATE TABLE IF NOT EXISTS pessoa(
+            self.cursor.execute("""CREATE TABLE IF NOT EXISTS tarefas(
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 nome TEXT,
-                                cpf TEXT,
-                                idade INTEGER)""")
+                                descricao TEXT)""")
             
-            self.cursor.execute("INSERT INTO pessoa(nome, cpf, idade) VALUES(?, ?, ?)", valores)
+            self.cursor.execute("INSERT INTO tarefas(nome, descricao) VALUES(?, ?)", valores)
             self.conexao.commit()
         except Exception as e:
             return f"O seguinte erro aconteceu {e}"
         
     def selecionar(self):
         try:
-            res = self.cursor.execute("SELECT * FROM cadastro")
+            res = self.cursor.execute("SELECT * FROM tarefas")
             res = res.fetchall()
-            return res
+            json = []
+            for i in range(len(res)):
+                json.append({"ID":res[i][0],"NOME":res[i][1],"DESCRICAO":res[i][2]})
+            return json
         except Exception as e:
             return f"O seguinte erro aconteceu {e}"
     
     def deletar(self, id:int):
         try:
-            self.cursor.execute("DELETE FROM cadastro WHERE id = ?", id)
+            self.cursor.execute("DELETE FROM tarefas WHERE id = ?", (id,))
             self.conexao.commit()
         except Exception as e:
             return f"O seguinte erro aconteceu {e}"
@@ -83,7 +85,7 @@ class Conexao():
         return self.conexao.close()
         
     
-
+"""
 db = Conexao()
 db.criarConexao()
 db.criarCursor()
@@ -95,5 +97,7 @@ db.login(login, senha)
 #db.deletar(0)
 #df = pd.DataFrame(db.selecionar())
 #print(df.to_string())
-db.fecharConexao()
+db.fecharConexao()"""
+
+
 
