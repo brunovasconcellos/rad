@@ -1,14 +1,27 @@
 import tkinter as tk
 from tkinter import ttk
+from db.Conexao import Conexao
+import bcrypt
 
 
-class RegisterUserForm:
+class RegisterUserForm(Conexao):
     def __init__(self, loginForm):
+        super().__init__()
+        self.conexao = self.criarConexao()
+        self.cursor = self.criarCursor()
+        self.salt = bcrypt.gensalt()
         self.window = loginForm.window
         self.loginForm = loginForm
 
     def createUser(self):
-        print('createUser')
+        usuario = self.formItens[1].get()
+        senha = self.formItens[3].get()
+        confirmacao_senha = self.formItens[5].get()
+        if(senha != confirmacao_senha):
+            return ValueError
+        else:
+            self.criarCadastro(usuario, senha)
+
         self.redirectToLoginForm()
 
     def redirectToLoginForm(self):
@@ -25,10 +38,12 @@ class RegisterUserForm:
         userPasswordlabel = tk.Label(self.window, text='Senha', bg='gray')
         userPasswordlabel.pack()
         userPasswordEntry = tk.Entry(self.window)
+        userPasswordEntry.config(show='*')
         userPasswordEntry.pack()
         userPasswordConfirmlabel = tk.Label(self.window, text='Confirmar senha', bg='gray')
         userPasswordConfirmlabel.pack()
         userPasswordConfirmEntry = tk.Entry(self.window)
+        userPasswordConfirmEntry.config(show='*')
         userPasswordConfirmEntry.pack()
         btUserButton = ttk.Button(self.window ,text="Criar", command=self.createUser)
         btUserButton.pack(pady=10)
@@ -38,5 +53,6 @@ class RegisterUserForm:
         self.formItens = formItens
 
     def destroyWindow(self):
+        self.fecharConexao()
         for i in self.formItens:
             i.destroy()

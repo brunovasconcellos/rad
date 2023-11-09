@@ -1,11 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
-from auth.registerUser import RegisterUserForm
-from dashboard.main import DashBoard
+from view.auth.registerUser import RegisterUserForm
+from view.dashboard.main import DashBoard
+from db.Conexao import Conexao
+import bcrypt
 
-class LoginForm:
+class LoginForm(Conexao):
     
     def __init__(self, window):
+        super().__init__()
+        self.conexao = self.criarConexao()
+        self.cursor = self.criarCursor()
+        self.salt = bcrypt.gensalt()
         self.window = window
        
 
@@ -16,7 +22,10 @@ class LoginForm:
         rForm.buildRegisterUserForm()
 
     def redirectToDashBoard(self):
-        print('redirectToDashBoard')
+        usuario = self.formItens[1].get()
+        senha = self.formItens[3].get()
+        if(self.login(usuario, senha)!= True):
+            return ValueError
         self.window.destroy()
         DashBoard()
 
@@ -37,7 +46,9 @@ class LoginForm:
         btnRegisterButton.pack(pady=10)
         formItens = [usernamelabel, usernameEntry, userPasswordlabel, userPasswordEntry, btnLogin, btnRegisterButton]
         self.formItens = formItens
+        
 
     def destroyWindow(self):
+        self.fecharConexao()
         for i in self.formItens:
             i.destroy()
