@@ -1,7 +1,12 @@
 import tkinter as tk
+from db.Conexao import Conexao
+import bcrypt
 
-class EditOrDelete:
+class EditOrDelete(Conexao):
     def __init__(self, window, list) -> None:
+        self.conexao = self.criarConexao()
+        self.cursor = self.criarCursor()
+        self.salt = bcrypt.gensalt()
         self.window = window
         self.list = list
 
@@ -16,7 +21,8 @@ class EditOrDelete:
         self.destroyWindow()
     
     def deleteItem(self):
-        print('deleteItem')
+        id = self.formItems[1].get()
+        self.deletar(int(id))
         self.destroyWindow()
 
     def cancel(self):
