@@ -16,7 +16,7 @@ class List:
         editOrDelete.buildForm()
     
     def buildList(self):
-  
+        self.window.title('Dashboard')
         columns = ("id", "name")
         listData = self.getListData()
         treeview = ttk.Treeview(self.window, columns=columns, show='headings')

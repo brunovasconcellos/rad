@@ -21,6 +21,7 @@ class LoginForm:
         DashBoard()
 
     def buildLoginForm(self):
+        self.window.title('Login')
         usernamelabel = tk.Label(self.window, text='Nome de usuário', bg='gray')
         usernamelabel.pack()
         usernameEntry = tk.Entry(self.window)
@@ -28,6 +29,7 @@ class LoginForm:
         userPasswordlabel = tk.Label(self.window, text='Senha', bg='gray')
         userPasswordlabel.pack()
         userPasswordEntry = tk.Entry(self.window)
+        userPasswordEntry.config(show='*')
         userPasswordEntry.pack()
         btnLogin = ttk.Button(self.window ,text="Entrar", command=self.redirectToDashBoard)
         btnLogin.pack(pady=10)
