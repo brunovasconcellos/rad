@@ -25,9 +25,13 @@ class LoginForm(Conexao):
         usuario = self.formItens[1].get()
         senha = self.formItens[3].get()
         try:
-            self.login(usuario, senha)
-            self.window.destroy()
-            DashBoard()
+            if self.login(usuario, senha):
+                self.window.destroy()
+                DashBoard()
+            else:
+                errorLabel = tk.Label(self.window, text='Usuário ou senha incorretos', fg='red', bg='gray')
+                errorLabel.pack(pady=10)
+                self.formItens.append(errorLabel)
         except Exception as e:
             errorLabel = tk.Label(self.window, text='Usuário ou senha incorretos', fg='red', bg='gray')
             errorLabel.pack(pady=10)
