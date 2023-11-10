@@ -4,6 +4,7 @@ import bcrypt
 
 class Create(Conexao):
     def __init__(self, window, list) -> None:
+        super().__init__()
         self.conexao = self.criarConexao()
         self.cursor = self.criarCursor()
         self.salt = bcrypt.gensalt()
@@ -17,7 +18,9 @@ class Create(Conexao):
         self.list.buildList()
 
     def createItem(self):
-        print('createItem')
+        nome = self.formItems[1].get()
+        descricao = self.formItems[3].get()
+        self.inserir([nome, descricao])
         self.destroyWindow()
     
     def cancel(self):
