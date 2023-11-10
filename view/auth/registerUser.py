@@ -21,7 +21,7 @@ class RegisterUserForm(Conexao):
             return ValueError
         else:
             self.criarCadastro(usuario, senha)
-
+        self.destroyWindow()
         self.redirectToLoginForm()
 
     def redirectToLoginForm(self):
@@ -53,6 +53,6 @@ class RegisterUserForm(Conexao):
         self.formItens = formItens
 
     def destroyWindow(self):
-        self.fecharConexao()
+        
         for i in self.formItens:
             i.destroy()

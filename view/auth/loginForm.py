@@ -49,6 +49,6 @@ class LoginForm(Conexao):
         
 
     def destroyWindow(self):
-        self.fecharConexao()
+        
         for i in self.formItens:
             i.destroy()
