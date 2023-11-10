@@ -10,7 +10,7 @@ x = int((scream_width/2) - (1024/2))
 y = int((scream_height/2) - (720/2))
 
 window.geometry('%dx%d+%d+%d' % (1024, 720, x, y))
-window.state('zoomed')
+window.state('normal')
 window.configure(bg='gray')
 
 lForm = LoginForm(window)
