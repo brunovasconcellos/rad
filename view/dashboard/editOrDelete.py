@@ -18,12 +18,15 @@ class EditOrDelete(Conexao):
         self.list.buildList()
 
     def editItem(self):
-        print('editItem')
+        id = self.treeViewData[0]
+        desc = self.formItems[1].get()
+        nome = self.formItems[3].get()
+        self.editar(desc, nome, id)
         self.destroyWindow()
     
     def deleteItem(self):
-        id = self.formItems[1].get()
-        self.deletar(int(id))
+        id = self.treeViewData[0]
+        self.deletar(id)
         self.destroyWindow()
 
     def cancel(self):

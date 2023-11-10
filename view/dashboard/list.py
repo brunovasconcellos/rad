@@ -7,7 +7,7 @@ import bcrypt
 
 class List(Conexao):
 
-    data = [{'id': 1, 'name': 'teste'}, {'id': 2, 'name': 'teste2'}, {'id': 3, 'name': 'teste3'}]
+    
 
     def __init__(self, window):
         super().__init__()
@@ -59,6 +59,7 @@ class List(Conexao):
 
             treeview.pack()
             self.elements.append(treeview)
+            
 
         createData: tk.Button = tk.Button(self.window, text='Criar', command=self.createItem)
         createData.pack(pady=10)
