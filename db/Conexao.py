@@ -80,24 +80,17 @@ class Conexao():
             self.conexao.commit()
         except Exception as e:
             return f"O seguinte erro aconteceu {e}"
+    def editar(self,desc, name, id):
+        try:
+            self.cursor.execute("UPDATE tarefas SET descricao = ?, nome = ? WHERE id = ?",(desc, name, id,))
+            self.conexao.commit()
+        except Exception as e:
+            return f"O seguinte erro aconteceu {e}"
         
     def fecharConexao(self):
         return self.conexao.close()
         
-    
-"""
-db = Conexao()
-db.criarConexao()
-db.criarCursor()
-login = input("Digite seu login: ")
-senha = input("Digite sua senha: ")
-#db.criarCadastro(login, senha)
-db.login(login, senha)
-#db.inserir(["felipe","0000000",26])
-#db.deletar(0)
-#df = pd.DataFrame(db.selecionar())
-#print(df.to_string())
-db.fecharConexao()"""
+
 
 
 
