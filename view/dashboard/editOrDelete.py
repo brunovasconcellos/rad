@@ -19,8 +19,8 @@ class EditOrDelete(Conexao):
 
     def editItem(self):
         id = self.treeViewData[0]
-        desc = self.formItems[1].get()
-        nome = self.formItems[3].get()
+        desc = self.formItems[3].get()
+        nome = self.formItems[1].get()
 
         if (nome == '' or desc == ''):
             label = tk.Label(self.window, text='Preencha todos os campos', fg='red', bg='gray')
