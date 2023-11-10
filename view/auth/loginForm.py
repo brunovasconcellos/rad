@@ -24,10 +24,14 @@ class LoginForm(Conexao):
     def redirectToDashBoard(self):
         usuario = self.formItens[1].get()
         senha = self.formItens[3].get()
-        if(self.login(usuario, senha)!= True):
-            return ValueError
-        self.window.destroy()
-        DashBoard()
+        try:
+            self.login(usuario, senha)
+            self.window.destroy()
+            DashBoard()
+        except Exception as e:
+            errorLabel = tk.Label(self.window, text='Usuário ou senha incorretos', fg='red', bg='gray')
+            errorLabel.pack(pady=10)
+            self.formItens.append(errorLabel)
 
     def buildLoginForm(self):
         self.window.title('Login')
@@ -49,6 +53,5 @@ class LoginForm(Conexao):
         
 
     def destroyWindow(self):
-        
         for i in self.formItens:
             i.destroy()

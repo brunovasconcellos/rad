@@ -18,7 +18,15 @@ class RegisterUserForm(Conexao):
         senha = self.formItens[3].get()
         confirmacao_senha = self.formItens[5].get()
         if(senha != confirmacao_senha):
-            return ValueError
+            passwordErrLabel = tk.Label(self.window, text='As senhas não coincidem', fg='red', bg='gray')
+            passwordErrLabel.pack(pady=10)
+            self.formItens.append(passwordErrLabel)
+            return
+        elif(not usuario or not senha or not confirmacao_senha):
+            emptyFieldErrLabel = tk.Label(self.window, text='Preencha todos os campos', fg='red', bg='gray')
+            emptyFieldErrLabel.pack(pady=10)
+            self.formItens.append(emptyFieldErrLabel)
+            return
         else:
             self.criarCadastro(usuario, senha)
         self.destroyWindow()
