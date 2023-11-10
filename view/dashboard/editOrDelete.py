@@ -3,12 +3,13 @@ from db.Conexao import Conexao
 import bcrypt
 
 class EditOrDelete(Conexao):
-    def __init__(self, window, list) -> None:
+    def __init__(self, window, list, treeViewData) -> None:
         self.conexao = self.criarConexao()
         self.cursor = self.criarCursor()
         self.salt = bcrypt.gensalt()
         self.window = window
         self.list = list
+        self.treeViewData = treeViewData
 
     def destroyWindow(self):
         for i in self.formItems:
@@ -35,11 +36,17 @@ class EditOrDelete(Conexao):
         nameLabel = tk.Label(self.window, text='Nome', bg='gray')
         nameLabel.pack()
         nameEntry = tk.Entry(self.window)
+        nameEntry.insert(0, self.treeViewData[1])
         nameEntry.pack()
+        descriptionLabel = tk.Label(self.window, text='Descrição', bg='gray')
+        descriptionLabel.pack()
+        descriptionEntry = tk.Entry(self.window)
+        descriptionEntry.insert(0, self.treeViewData[2])
+        descriptionEntry.pack()
         confirmEditButton = tk.Button(self.window, text='Editar', command=self.editItem)
         confirmEditButton.pack(pady=10)
         deleteButton = tk.Button(self.window, text='Excluir', command=self.deleteItem)
         deleteButton.pack(pady=10)
         cancelButton = tk.Button(self.window, text='Cancelar', command=self.cancel)
         cancelButton.pack(pady=10)
-        self.formItems = [nameLabel, nameEntry, confirmEditButton, deleteButton, cancelButton]
+        self.formItems = [nameLabel, nameEntry, descriptionLabel, descriptionEntry, confirmEditButton, deleteButton, cancelButton]

@@ -24,8 +24,21 @@ class List(Conexao):
     
     def editItem(self, event):
         print('editItem')
+        treeView = ''
+        for i in self.elements:
+            if type(i) == ttk.Treeview:
+                treeView = i
+                break
+
+        if treeView == '':
+            return
+        
+        selected_item = treeView.selection()[0]
+        treeViewData = treeView.item(selected_item)['values']
+        print(treeViewData)
         self.destroyWindow()
-        editOrDelete = EditOrDelete(self.window, self)
+        self.destroyWindow()
+        editOrDelete = EditOrDelete(self.window, self, treeViewData)
         editOrDelete.buildForm()
     
     def buildList(self):
