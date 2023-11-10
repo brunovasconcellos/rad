@@ -4,8 +4,8 @@ from view.dashboard.list import List
 class DashBoard:
    def __init__(self) -> None:
       window = tk.Tk()
-      window.geometry('400x400')
-      window.state('normal')
+      window.geometry('1024x720')
+      window.state('zoomed')
       window.configure(bg='gray')
 
       list = List(window)
