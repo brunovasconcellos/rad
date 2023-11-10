@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from view.dashboard.editOrDelete import EditOrDelete
+from view.dashboard.create import Create
 from db.Conexao import Conexao
 import bcrypt
 
@@ -14,6 +15,12 @@ class List(Conexao):
         self.cursor = self.criarCursor()
         self.salt = bcrypt.gensalt()
         self.window = window
+
+    def createItem(self):
+        print('createItem')
+        self.destroyWindow()
+        create = Create(self.window, self)
+        create.buildForm()
     
     def editItem(self, event):
         print('editItem')
@@ -23,23 +30,30 @@ class List(Conexao):
     
     def buildList(self):
         self.window.title('Dashboard')
+        self.elements = []
         columns = ("id", "nome", "descricao")
         listData = self.getListData()
-        treeview = ttk.Treeview(self.window, columns=columns, show='headings')
-        treeview.heading('id', text='ID')
-        treeview.heading('nome', text='Nome')
-        treeview.heading('descricao', text='Descrição')
+        
+        if (type(listData) != str):
+            treeview = ttk.Treeview(self.window, columns=columns, show='headings')
+            treeview.heading('id', text='ID')
+            treeview.heading('nome', text='Nome')
+            treeview.heading('descricao', text='Descrição')
 
-        for i in range(len(listData)):
-            treeview.insert('', tk.END, values=(listData[i]['ID'], listData[i]['NOME'], listData[i]["DESCRICAO"]))
-            treeview.bind('<<TreeviewSelect>>', self.editItem)
+            for i in range(len(listData)):
+                treeview.insert('', tk.END, values=(listData[i]['ID'], listData[i]['NOME'], listData[i]["DESCRICAO"]))
+                treeview.bind('<<TreeviewSelect>>', self.editItem)
 
-               
-        treeview.pack()
-        self.treeview = treeview
+            treeview.pack()
+            self.elements.append(treeview)
+
+        createData: tk.Button = tk.Button(self.window, text='Criar', command=self.createItem)
+        createData.pack(pady=10)
+        self.elements.append(createData)
 
     def getListData(self):
         return self.selecionar()
     
     def destroyWindow(self):
-       self.treeview.destroy()
+        for i in self.elements:
+            i.destroy()

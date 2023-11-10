@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from view.auth.registerUser import RegisterUserForm
-from view.dashboard.main import DashBoard
+from view.dashboard.dashboard import DashBoard
 from db.Conexao import Conexao
 import bcrypt
 
