@@ -20,6 +20,13 @@ class Create(Conexao):
     def createItem(self):
         nome = self.formItems[1].get()
         descricao = self.formItems[3].get()
+
+        if (nome == '' or descricao == ''):
+            label = tk.Label(self.window, text='Preencha todos os campos', fg='red', bg='gray')
+            label.pack(pady=10)
+            self.formItems.append(label)
+            return
+
         self.inserir([nome, descricao])
         self.destroyWindow()
     
