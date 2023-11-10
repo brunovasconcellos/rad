@@ -2,6 +2,7 @@ import sqlite3 as sql
 import pandas as pd
 import bcrypt
 from io import BytesIO
+import tempfile, os
 
 
 
@@ -53,12 +54,25 @@ class Conexao():
         
     def inserir(self, valores:list):        
         try:
+            
             self.cursor.execute("""CREATE TABLE IF NOT EXISTS tarefas(
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 nome TEXT,
                                 descricao TEXT)""")
             
-            self.cursor.execute("INSERT INTO tarefas(nome, descricao) VALUES(?, ?)", valores)
+            with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+                for item in valores:
+                    temp_file.write(f"{item}\n")
+
+            name = temp_file.name
+            with open(name,'r') as f:
+                data = f.readlines()
+            data_final = []
+            for i in data:
+                data_final.append(i.replace('\n',''))
+
+            self.cursor.execute("INSERT INTO tarefas(nome, descricao) VALUES(?, ?)", data_final)
+            os.remove(name)
             self.conexao.commit()
         except Exception as e:
             return f"O seguinte erro aconteceu {e}"
@@ -90,7 +104,4 @@ class Conexao():
     def fecharConexao(self):
         return self.conexao.close()
         
-
-
-
 
